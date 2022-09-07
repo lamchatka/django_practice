@@ -2,31 +2,47 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 from .models import *
 
-menu = ['О сайте', ' Войти', 'Зарегистрироваться']
+menu = [
+    {'title': 'О сайте', 'url_name': 'about'},
+    {'title': 'Добавить статью', 'url_name': 'add_page'},
+    {'title': 'Обратная связь', 'url_name': 'contact'},
+    {'title': 'Войти', 'url_name': 'login'},
+]
 
 
 def index(request):  # ссылка на класс HttpRequest(куки, сессии и тд, get/post запросы)
     # return HttpResponse("Страница приложения women.")  # экземпляр класса
     women_list = Women.objects.all()
-    return render(request, 'women/index.html', {'women_list': women_list, 'menu': menu, 'title': 'Главная страница'})
+    context = {
+        'women_list': women_list,
+        'menu': menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'women/index.html', context=context)
 
 
 def about(request):
     return render(request, 'women/about.html', {'menu': menu, 'title': 'О сайте'})
 
 
-def categories(request, catid):
-    if request.POST:
-        print(request.POST)
-    return HttpResponse(f"<h1>Статьи по категориям</h1><p>{catid}</p>")
+def add_page(request):
+    return HttpResponse('<h1> Добавление страницы</h1>')
 
 
-def archive(request, year):
-    if int(year) > 2020:
-        raise Http404()  # - вызывает ошибку 404
-        # return redirect('home', permanent=False) - перенаправляет на другую страницу
+def contact(request):
+    return HttpResponse('<h1> Контактная форма</h1>')
 
-    return HttpResponse(f"<h1>Архив по годам</h1><p>{year}</p>")
+
+def login(request):
+    return HttpResponse('<h1> Авторизация</h1>')
+
+
+def show_post(request, post_id):
+    women = Women.objects.get(pk=post_id)
+    context = {
+        'women': women
+    }
+    return render(request, 'women/read_post.html', context=context)
 
 
 def pageNotFound(request, exception):

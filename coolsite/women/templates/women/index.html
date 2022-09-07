@@ -2,7 +2,9 @@
 
 {% block content %}
 <ul class="list-articles">
+	<h1>{{title}}</h1>
 	{% for w in women_list %}
+
 			<li><h2>{{w.title}}</h2>
 				{% autoescape on %}
 
@@ -10,7 +12,7 @@
 
 				{%endautoescape %}
 			<div class="clear"></div>
-			<p class="link-read-post"><a href="#">Читать пост</a></p>
+			<p class="link-read-post"><a href="{{w.get_absolute_url}} ">Читать пост</a></p>
 			</li>
 	{% endfor %}
 </ul>

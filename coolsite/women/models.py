@@ -1,7 +1,8 @@
 from django.db import models
 
+from django.urls import reverse
 
-# Create your models here.
+
 class Women(models.Model):  # унаследовались от класса Model
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
@@ -12,3 +13,6 @@ class Women(models.Model):  # унаследовались от класса Mod
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('post', kwargs={'post_id': self.pk})
