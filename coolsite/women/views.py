@@ -13,10 +13,13 @@ menu = [
 def index(request):  # ссылка на класс HttpRequest(куки, сессии и тд, get/post запросы)
     # return HttpResponse("Страница приложения women.")  # экземпляр класса
     women_list = Women.objects.all()
+    categories = Category.objects.all()
     context = {
         'women_list': women_list,
         'menu': menu,
-        'title': 'Главная страница'
+        'title': 'Главная страница',
+        'categories': categories,
+        'cat_selected': 0
     }
     return render(request, 'women/index.html', context=context)
 
@@ -44,6 +47,19 @@ def show_post(request, post_id):
     }
     return render(request, 'women/read_post.html', context=context)
 
+
+def show_category(request, cat_id):
+    women_list = Women.objects.filter(cat_id=cat_id)
+    categories = Category.objects.all()
+    context = {
+        'women_list': women_list,
+        'categories': categories,
+        'menu': menu,
+        'cat_selected': cat_id,
+        'title': 'Отображение по рубрикам'
+    }
+
+    return render(request, 'women/index.html', context=context)
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
