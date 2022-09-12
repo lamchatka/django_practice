@@ -51,6 +51,10 @@ def show_post(request, post_id):
 def show_category(request, cat_id):
     women_list = Women.objects.filter(cat_id=cat_id)
     categories = Category.objects.all()
+
+    if len(women_list) == 0:
+        raise Http404()
+
     context = {
         'women_list': women_list,
         'categories': categories,

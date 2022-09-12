@@ -5,12 +5,19 @@
 	<h1>{{title}}</h1>
 	{% for w in women_list %}
 
-			<li><h2>{{w.title}}</h2>
+			<li><div class="article-panel">
+				<p class="first">Категория: {{w.cat}}</p>
+				<p class="last">Дата: {{w.time_update|date:"d-m-Y H:i:s"}}</p>
+			</div>
+				{% if w.photo %}
+				<p><img class="img-article-left thumb" src="{{w.photo.url}}"></p>
+				{% endif %}
+				<h2>{{w.title}}</h2>
+
 				{% autoescape on %}
-
-					<p>{{w.content|linebreaks|truncatewords:30}}</p>
-
+					{{w.content|linebreaks|truncatewords:30}}
 				{%endautoescape %}
+
 			<div class="clear"></div>
 			<p class="link-read-post"><a href="{{w.get_absolute_url}} ">Читать пост</a></p>
 			</li>
