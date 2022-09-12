@@ -2,30 +2,22 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 from .models import *
 
-menu = [
-    {'title': 'О сайте', 'url_name': 'about'},
-    {'title': 'Добавить статью', 'url_name': 'add_page'},
-    {'title': 'Обратная связь', 'url_name': 'contact'},
-    {'title': 'Войти', 'url_name': 'login'},
-]
+
 
 
 def index(request):  # ссылка на класс HttpRequest(куки, сессии и тд, get/post запросы)
     # return HttpResponse("Страница приложения women.")  # экземпляр класса
     women_list = Women.objects.all()
-    categories = Category.objects.all()
     context = {
         'women_list': women_list,
-        'menu': menu,
         'title': 'Главная страница',
-        'categories': categories,
         'cat_selected': 0
     }
     return render(request, 'women/index.html', context=context)
 
 
 def about(request):
-    return render(request, 'women/about.html', {'menu': menu, 'title': 'О сайте'})
+    return render(request, 'women/about.html', {'title': 'О сайте'})
 
 
 def add_page(request):
@@ -50,15 +42,12 @@ def show_post(request, post_id):
 
 def show_category(request, cat_id):
     women_list = Women.objects.filter(cat_id=cat_id)
-    categories = Category.objects.all()
 
     if len(women_list) == 0:
         raise Http404()
 
     context = {
         'women_list': women_list,
-        'categories': categories,
-        'menu': menu,
         'cat_selected': cat_id,
         'title': 'Отображение по рубрикам'
     }
