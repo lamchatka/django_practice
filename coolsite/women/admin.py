@@ -9,13 +9,18 @@ class WomenAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     list_editable = ('is_published',)
+
     list_filter = ('is_published', 'time_create')
+    # создает слаг на основе title
+    prepopulated_fields = {'slug': ('title',)}
 
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
+    #Автоматическое формирование слага в админ - панели(атрибут prepopulated_fields).
+    prepopulated_fields = {'slug': ('name',)}
 
 
 admin.site.register(Women, WomenAdmin)

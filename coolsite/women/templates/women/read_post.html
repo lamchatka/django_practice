@@ -2,11 +2,13 @@
 
 {% block content %}
 <ul class="list-articles">
-
-			<li><h2>{{women.title}}</h2>
+				{% if women.photo %}
+				<p><img class="img-article-left thumb" src="{{women.photo.url}}"></p>
+				{% endif %}
+			<li><h2>{{title}}</h2>
 				{% autoescape on %}
 
-					<p>{{women.content|linebreaks}}</p>
+					<p>{{women.content}}</p>
 
 				{%endautoescape %}
 			</li>
