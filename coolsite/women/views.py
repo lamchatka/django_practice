@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+from .forms import AddWomenForm
 
 
 def index(request):  # ссылка на класс HttpRequest(куки, сессии и тд, get/post запросы)
@@ -19,7 +20,17 @@ def about(request):
 
 
 def add_page(request):
-    return HttpResponse('<h1> Добавление страницы</h1>')
+    if request.method == 'POST':  # создаем экземпляр класса
+        form = AddWomenForm(request.POST)
+        if form.is_valid():  # проверка на корректность данных
+            print(form.cleaned_data)  # отобразим очищенные данные
+    else:
+        form = AddWomenForm()
+    context = {
+        'title': 'Добавление страницы',
+        'form':  form,
+    }
+    return render(request, 'women/add_page.html', context=context)
 
 
 def contact(request):
