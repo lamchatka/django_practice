@@ -21,14 +21,12 @@ def about(request):
 
 def add_page(request):
     if request.method == 'POST':  # создаем экземпляр класса
-        form = AddWomenForm(request.POST, request.FILES)
+        form = AddWomenForm(request.POST, request.FILES)  # список файлов из формы
         if form.is_valid():  # проверка на корректность данных
             # print(form.cleaned_data)  # отобразим очищенные данные
             # добавляем данные из формы в БД
-
             form.save()
             return redirect('home')
-
     else:
         form = AddWomenForm()
     context = {

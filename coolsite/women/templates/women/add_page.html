@@ -2,9 +2,15 @@
 
 {% block content %}
 <h1>{{title}}</h1>
-<form action="{% url 'add_page' %}" method="Post">
+<form action="{% url 'add_page' %}" method="Post" enctype="multipart/form-data">
         {% csrf_token %} <!-- токен для защиты формы от csrf атак -->
-        {{ form.as_p }} <!-- отобразить все поля формы как <p> -->
+    <div class="form-error">{{form.non_field_errors}}</div>
+
+    {% for f in form%}
+    <p><label class="form-label" for="{{ f.id_for_label}}">{{f.label}}: </label>{{f}}</p>
+    <div class="form-error">{{f.errors}}</div>
+    {%endfor%}
+
     <button type="submit">Добавить</button>
 </form>
 {% endblock %}
